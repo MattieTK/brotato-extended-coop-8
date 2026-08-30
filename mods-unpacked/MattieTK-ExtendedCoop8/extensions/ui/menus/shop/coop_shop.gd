@@ -81,9 +81,11 @@ func _c8_build_grid() -> void :
 			cell.get_parent().remove_child(cell)
 			row2.add_child(cell)
 
-	# Anchor every popup to its player's (unscaled) grid cell — the popups'
-	# built-in clamping then keeps them inside that player's own area — and
-	# shrink them so they cover less of the cramped cells.
+	# Popups get pinned to a fixed slot inside their owner's cell: the vanilla
+	# per-frame repositioning maths breaks inside scaled trees (popups drifted
+	# off-screen and across row boundaries), so it is disabled per instance and
+	# replaced with a visibility-driven pin. They are also shrunk to cover less
+	# of the cramped cells.
 	for i in range(RunData.get_player_count()):
 		if containers[i] == null:
 			continue
@@ -92,10 +94,51 @@ func _c8_build_grid() -> void :
 		if popup != null:
 			popup.parent_node_path = cell_path
 			popup.rect_scale = Vector2(0.75, 0.75)
+			_c8_register_popup_pin(popup, containers[i])
 		if containers[i].item_popup != null:
 			containers[i].item_popup.parent_node_path = cell_path
 			containers[i].item_popup.rect_scale = Vector2(0.75, 0.75)
+			_c8_register_popup_pin(containers[i].item_popup, containers[i])
 	print("C8| shop grid: done")
+
+
+func _c8_register_popup_pin(popup: Control, container: Control) -> void :
+	popup.set_process(false)
+	if not popup.is_connected("visibility_changed", self, "_c8_on_popup_visibility"):
+		var _e = popup.connect("visibility_changed", self, "_c8_on_popup_visibility", [popup, container])
+
+
+func _c8_on_popup_visibility(popup: Control, container: Control) -> void :
+	if popup.visible:
+		call_deferred("_c8_pin_popup", popup, container)
+
+
+func _c8_pin_popup(popup: Control, container: Control) -> void :
+	# Fixed tooltip slot: upper third of the owner's cell, shifted up if the
+	# popup would reach the GO button at the bottom. Never leaves the cell.
+	if not is_instance_valid(popup) or not is_instance_valid(container) or not popup.visible:
+		return
+	var cell = container.get_parent()
+	var rect: Rect2 = cell.get_global_rect()
+	var popup_scale: Vector2 = popup.get_global_transform().get_scale()
+	var estimated_height := 260.0
+	if "_panel" in popup and popup._panel != null:
+		estimated_height = popup._panel.rect_size.y * popup_scale.y * 1.6
+	var y: float = min(rect.position.y + rect.size.y * 0.28, rect.end.y - 55.0 - estimated_height)
+	popup.rect_global_position = Vector2(rect.position.x + 4.0, max(rect.position.y + 4.0, y))
+
+
+func _on_GoButton_pressed(player_index: int) -> void :
+	._on_GoButton_pressed(player_index)
+	# A readied player's lingering tooltips must not cover anyone's buttons.
+	if RunData.get_player_count() > 4 and _player_pressed_go_button[player_index]:
+		_popup_manager.reset_focus(player_index)
+		var stat_popup = _get_stat_popup(player_index)
+		if stat_popup != null:
+			stat_popup.hide()
+		var container = _get_coop_player_container(player_index)
+		if container != null and container.item_popup != null:
+			container.item_popup.hide()
 
 
 func _find_nodes() -> void :
