@@ -10,9 +10,15 @@ Extends local coop from 4 to [b]8 players[/b]. Works with Steam Remote Play Toge
 [/list]
 
 [h1]Steam Remote Play Together[/h1]
-Invite friends through the Steam overlay - their controllers appear as local ones, nothing else to set up.
+Invite friends through the Steam overlay - their controllers appear as local ones, nothing else to set up. Remote Play supports [b]up to 4 remote controllers[/b] (a Steam/Windows XInput limit, not a mod limit).
 
-Windows note: Xbox-type (XInput) controllers are limited to 4 by Windows itself. Controllers 5-8 need to be DirectInput-capable (PlayStation, Switch Pro and most generic pads are). If a 5th controller is not detected, try disabling Steam Input for Brotato in its Steam controller settings.
+How to reach the full 8 players:
+[list]
+[*][b]Couch + remote:[/b] local players on the keyboard and DirectInput pads (PlayStation, Switch Pro, most generic pads) do not use up the 4 XInput slots, so e.g. keyboard + 3 local PlayStation pads + 4 Remote Play guests = 8.
+[*][b]Fully remote:[/b] host through [b]Parsec[/b] instead, with its "emulate DualShock 4" gamepad option enabled - those pads enumerate as DirectInput and are not capped at 4.
+[/list]
+
+If a 5th local controller is not detected, try disabling Steam Input for Brotato in its Steam controller settings (Steam Input re-exposes every pad as XInput, which caps at 4).
 
 [h1]Saves[/h1]
 Your normal progression save is shared with the unmodded game and untouched. Runs with more than 4 players are stored in a separate run file that the unmodded game never reads, so nothing breaks if you play without the mod mid-run - the 8-player run is simply resumed next time you play with the mod.
