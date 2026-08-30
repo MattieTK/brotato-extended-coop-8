@@ -1,0 +1,18 @@
+{
+	"name": "ExtendedCoop8",
+	"namespace": "MattieTK",
+	"version_number": "1.0.0",
+	"description": "Extends local coop from 4 to 8 players. Works with Steam Remote Play Together. Shop, character select, HUD and end screens split into 8 slots.",
+	"website_url": "",
+	"dependencies": [],
+	"extra": {
+		"godot": {
+			"id": "MattieTK-ExtendedCoop8",
+			"incompatibilities": [],
+			"authors": ["MattieTK"],
+			"compatible_game_version": ["1.1.15.4"],
+			"compatible_mod_loader_version": ["6.3.0"],
+			"config_defaults": {}
+		}
+	}
+}
