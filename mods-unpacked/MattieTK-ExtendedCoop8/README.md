@@ -1,4 +1,6 @@
-# ExtendedCoop8 — 8-Player Local Coop for Brotato
+# Extended Coop - 8 players local + remote
+
+(Workshop title; internal mod id: `MattieTK-ExtendedCoop8`)
 
 Extends Brotato's local coop from 4 to 8 players, with the coop UI split into
 a 2×4 grid (shop, level-ups, end-of-run screen), 8 join slots on the character

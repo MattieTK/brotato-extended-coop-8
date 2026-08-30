@@ -14,10 +14,17 @@ Everything you need is in this folder:
    (GodotWorkshopUtility). Do NOT run the exe directly; it only works when
    started through Steam.
 3. In the uploader:
-   - Mod zip: `modwork\mod\workshop\MattieTK-ExtendedCoop8.zip`
+   - Mod zip: `modwork\mod\workshop\Extended Coop - 8 players local + remote.zip`
+     (release build — dev tooling stripped; rebuild any time with
+     `modwork\workshop_build.ps1`)
    - Image: `modwork\mod\workshop\preview.png`
    - Workshop ID: leave **blank** (first upload creates the item;
      for later updates, paste the id from the mod's workshop URL)
+   IMPORTANT: the uploader sets the workshop TITLE to the zip's filename on
+   every upload — that is why the title kept reverting. Always upload the
+   zip built by `workshop_build.ps1`, whose filename IS the title. The
+   internal mod id stays `MattieTK-ExtendedCoop8` (ModLoader requires the
+   no-spaces Author-ModName form); zip filename and mod id are independent.
 4. After it uploads, open the new workshop page:
    - Paste in `description.txt`
    - Set visibility (new items start **Hidden** — keep it hidden for

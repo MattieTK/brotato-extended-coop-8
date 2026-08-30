@@ -44,15 +44,18 @@ func _init() -> void:
 
 func _ready() -> void:
 	ModLoaderLog.info("Ready — up to 8 players enabled", LOG_NAME)
-	# Test harness activation: CLI arg, or a flag file (survives Steam's DRM
-	# relaunch, which drops custom command-line arguments).
+	# Dev tooling: only present in development builds (the release zip strips
+	# these scripts), and armed by a CLI arg or a flag file (flag files survive
+	# Steam's DRM relaunch, which drops custom command-line arguments).
 	var args = OS.get_cmdline_args()
 	var flag_file: = File.new()
-	if "--c8-autotest" in args or "--c8-resume-test" in args or flag_file.file_exists("user://c8_autotest.flag"):
-		var tester = load(mod_dir_path.plus_file("c8_autotest.gd")).new()
+	var tester_path = mod_dir_path.plus_file("c8_autotest.gd")
+	if flag_file.file_exists(tester_path) and ("--c8-autotest" in args or "--c8-resume-test" in args or flag_file.file_exists("user://c8_autotest.flag")):
+		var tester = load(tester_path).new()
 		tester.name = "C8AutoTest"
 		add_child(tester)
-	if "--c8-dev" in args or flag_file.file_exists("user://c8_dev.flag"):
-		var devtools = load(mod_dir_path.plus_file("c8_devtools.gd")).new()
+	var devtools_path = mod_dir_path.plus_file("c8_devtools.gd")
+	if flag_file.file_exists(devtools_path) and ("--c8-dev" in args or flag_file.file_exists("user://c8_dev.flag")):
+		var devtools = load(devtools_path).new()
 		devtools.name = "C8DevTools"
 		add_child(devtools)

@@ -2,7 +2,7 @@
 	"name": "ExtendedCoop8",
 	"namespace": "MattieTK",
 	"version_number": "1.0.0",
-	"description": "Extends local coop from 4 to 8 players. Works with Steam Remote Play Together. Shop, character select, HUD and end screens split into 8 slots.",
+	"description": "Extended Coop - 8 players local + remote. Extends local coop from 4 to 8 players; works with Steam Remote Play Together. All coop UI split into 8 player slots.",
 	"website_url": "",
 	"dependencies": [],
 	"extra": {
