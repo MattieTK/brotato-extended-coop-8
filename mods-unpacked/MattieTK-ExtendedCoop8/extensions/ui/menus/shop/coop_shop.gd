@@ -125,7 +125,11 @@ func _c8_pin_popup(popup: Control, container: Control) -> void :
 	if "_panel" in popup and popup._panel != null:
 		estimated_height = popup._panel.rect_size.y * popup_scale.y * 1.6
 	var y: float = min(rect.position.y + rect.size.y * 0.28, rect.end.y - 55.0 - estimated_height)
-	popup.rect_global_position = Vector2(rect.position.x + 4.0, max(rect.position.y + 4.0, y))
+	# Centered horizontally: shop rows keep their icons/names (left) and
+	# prices (right) visible past the tooltip's edges.
+	var popup_width: float = popup.rect_size.x * popup_scale.x
+	var x: float = rect.position.x + (rect.size.x - popup_width) / 2.0
+	popup.rect_global_position = Vector2(max(rect.position.x + 4.0, x), max(rect.position.y + 4.0, y))
 
 
 func _on_GoButton_pressed(player_index: int) -> void :
