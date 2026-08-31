@@ -10,6 +10,11 @@ var _c8_containers: = []
 var _c8_popups: = []
 var _c8_built: = false
 
+# Tooltip scale inside the 2x4 shop grid. Originally 0.75 to cover less of
+# the cramped cells, raised 150% for stream readability; the pin logic
+# clamps the larger popup inside its owner's cell.
+const C8_POPUP_SCALE := 1.125
+
 
 func _enter_tree() -> void :
 	if RunData.get_player_count() <= 4 or _c8_built:
@@ -84,8 +89,7 @@ func _c8_build_grid() -> void :
 	# Popups get pinned to a fixed slot inside their owner's cell: the vanilla
 	# per-frame repositioning maths breaks inside scaled trees (popups drifted
 	# off-screen and across row boundaries), so it is disabled per instance and
-	# replaced with a visibility-driven pin. They are also shrunk to cover less
-	# of the cramped cells.
+	# replaced with a visibility-driven pin.
 	for i in range(RunData.get_player_count()):
 		if containers[i] == null:
 			continue
@@ -93,11 +97,11 @@ func _c8_build_grid() -> void :
 		var popup = _get_stat_popup(i)
 		if popup != null:
 			popup.parent_node_path = cell_path
-			popup.rect_scale = Vector2(0.75, 0.75)
+			popup.rect_scale = Vector2(C8_POPUP_SCALE, C8_POPUP_SCALE)
 			_c8_register_popup_pin(popup, containers[i])
 		if containers[i].item_popup != null:
 			containers[i].item_popup.parent_node_path = cell_path
-			containers[i].item_popup.rect_scale = Vector2(0.75, 0.75)
+			containers[i].item_popup.rect_scale = Vector2(C8_POPUP_SCALE, C8_POPUP_SCALE)
 			_c8_register_popup_pin(containers[i].item_popup, containers[i])
 	print("C8| shop grid: done")
 
@@ -126,9 +130,11 @@ func _c8_pin_popup(popup: Control, container: Control) -> void :
 		estimated_height = popup._panel.rect_size.y * popup_scale.y * 1.6
 	var y: float = min(rect.position.y + rect.size.y * 0.28, rect.end.y - 55.0 - estimated_height)
 	# Centered horizontally: shop rows keep their icons/names (left) and
-	# prices (right) visible past the tooltip's edges.
+	# prices (right) visible past the tooltip's edges. The enlarged popup is
+	# clamped on BOTH sides so it can never spill into a neighbour's cell.
 	var popup_width: float = popup.rect_size.x * popup_scale.x
 	var x: float = rect.position.x + (rect.size.x - popup_width) / 2.0
+	x = min(x, rect.end.x - popup_width - 4.0)
 	popup.rect_global_position = Vector2(max(rect.position.x + 4.0, x), max(rect.position.y + 4.0, y))
 
 
