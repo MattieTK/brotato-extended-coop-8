@@ -1,5 +1,7 @@
 # Extended Coop - 8 players local + remote
 
+**Steam Workshop:** https://steamcommunity.com/sharedfiles/filedetails/?id=3792682639
+
 (Workshop title; internal mod id: `MattieTK-ExtendedCoop8`)
 
 Extends Brotato's local coop from 4 to 8 players, with the coop UI split into
@@ -15,15 +17,13 @@ progression saves.
 
 ## Installing
 
-The Steam build of Brotato only loads mods from the Steam Workshop folder
-(`steamapps/workshop/content/1942280/<item_id>/*.zip`). Until this mod is
-published to the Workshop, drop `MattieTK-ExtendedCoop8.zip` into any workshop
-item folder you are subscribed to. (The GOG/Epic builds load zips from the
-`mods` folder next to Brotato.exe.)
+Subscribe on the Steam Workshop:
+https://steamcommunity.com/sharedfiles/filedetails/?id=3792682639
 
-To publish properly: use the `GodotWorkshopUtility.exe` that ships with the
-game to upload the zip as your own (optionally hidden) workshop item, then
-subscribe to it.
+The Steam build of Brotato only loads mods from the Steam Workshop folder
+(`steamapps/workshop/content/1942280/<item_id>/*.zip`), so subscribing is all
+it takes. (The GOG/Epic builds instead load zips from the `mods` folder next
+to Brotato.exe — drop the release zip there.)
 
 **Important:** unsubscribe from the original "Extended Coop" workshop mod
 (id 3629226509) — the two mods extend the same scripts and conflict.
